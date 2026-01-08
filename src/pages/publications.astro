@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
 
 const publications = await getCollection('publications');
@@ -10,12 +10,11 @@ const chapters = publications.filter(p => p.data.type === 'chapter').sort((a, b)
 const workingPapers = publications.filter(p => p.data.type === 'working-paper').sort((a, b) => b.data.year - a.data.year);
 ---
 
-<BaseLayout
+<PageLayout
 	title="Publications"
 	description="Research publications including journal articles, books, book chapters, and working papers by Valentin Zelenyuk."
 >
-	<div class="container-custom py-16">
-		<h1 class="text-4xl font-bold text-gray-900 mb-8">Publications</h1>
+	<h1 class="text-4xl font-bold text-gray-900 mb-8">Publications</h1>
 
 		<!-- Featured Publications -->
 		{featured.length > 0 && (
@@ -204,6 +203,5 @@ const workingPapers = publications.filter(p => p.data.type === 'working-paper').
 				target="_blank" rel="noopener" class="text-primary-600 hover:text-primary-700">Google Scholar</a>.
 			</p>
 		</div>
-	</div>
-</BaseLayout>
+</PageLayout>
 

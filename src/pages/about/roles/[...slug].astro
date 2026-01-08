@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -14,12 +14,11 @@ const { role } = Astro.props;
 const { Content } = await render(role);
 ---
 
-<BaseLayout
+<PageLayout
 	title={`${role.data.role} - ${role.data.org}`}
 	description={`${role.data.role} at ${role.data.org}`}
 >
-	<div class="container-custom py-16">
-		<div class="mb-8">
+	<div class="mb-8">
 				<h1 class="text-4xl font-bold text-gray-900 mb-2">{role.data.role}</h1>
 				<p class="text-xl text-gray-600">{role.data.org}</p>
 			</div>
@@ -28,11 +27,10 @@ const { Content } = await render(role);
 				<Content />
 			</div>
 			
-		<div class="mt-8">
-			<a href="/about" class="text-primary-600 hover:text-primary-700 font-medium">
-				← Back to About
-			</a>
-		</div>
+	<div class="mt-8">
+		<a href="/about" class="text-primary-600 hover:text-primary-700 font-medium">
+			← Back to About
+		</a>
 	</div>
-</BaseLayout>
+</PageLayout>
 
