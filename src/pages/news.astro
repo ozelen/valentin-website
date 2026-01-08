@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const newsItems = await getCollection('news');
+const sortedNews = newsItems.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout
+	title="News"
+	description="Recent news, talks, publications, awards, and updates from Valentin Zelenyuk."
+>
+	<div class="container-custom py-16">
+		<div class="max-w-4xl mx-auto">
+			<h1 class="text-4xl font-bold text-gray-900 mb-8">News & Updates</h1>
+
+			{sortedNews.length > 0 ? (
+				<div class="space-y-6">
+					{sortedNews.map((item) => (
+						<article class="card">
+							<div class="flex items-start justify-between gap-4">
+								<div class="flex-1">
+									<div class="flex items-center gap-3 mb-2">
+										<span class="px-2 py-1 text-xs font-medium rounded bg-primary-100 text-primary-800">
+											{item.data.type}
+										</span>
+										<time class="text-sm text-gray-500">
+											{item.data.date.toLocaleDateString('en-US', { 
+												year: 'numeric', 
+												month: 'long', 
+												day: 'numeric' 
+											})}
+										</time>
+									</div>
+									<h2 class="text-xl font-semibold text-gray-900 mb-2">
+										{item.data.link ? (
+											<a href={item.data.link} target="_blank" rel="noopener" class="hover:text-primary-600">
+												{item.data.title}
+											</a>
+										) : (
+											item.data.title
+										)}
+									</h2>
+									{item.data.description && (
+										<p class="text-gray-700">{item.data.description}</p>
+									)}
+									<div class="prose-custom mt-4">
+										<slot name="content" />
+									</div>
+								</div>
+							</div>
+						</article>
+					))}
+				</div>
+			) : (
+				<div class="text-center py-12">
+					<p class="text-gray-600 mb-4">No news items yet. Check back soon for updates!</p>
+					<p class="text-sm text-gray-500">
+						Recent publications, talks, and awards will be posted here.
+					</p>
+				</div>
+			)}
+
+			<!-- Recent Highlights (Static) -->
+			<section class="mt-12">
+				<h2 class="text-2xl font-bold text-gray-900 mb-6">Recent Highlights</h2>
+				<div class="space-y-4">
+					<div class="border-l-4 border-primary-500 pl-4">
+						<h3 class="font-semibold text-gray-900">Plenary Speaker</h3>
+						<p class="text-gray-700">European Workshop on Efficiency and Productivity Analysis (EWEPA) 2022</p>
+					</div>
+					<div class="border-l-4 border-primary-500 pl-4">
+						<h3 class="font-semibold text-gray-900">Plenary Speaker</h3>
+						<p class="text-gray-700">North American Productivity Workshop (NAPW) 2023, University of Miami</p>
+					</div>
+					<div class="border-l-4 border-primary-500 pl-4">
+						<h3 class="font-semibold text-gray-900">ARC Future Fellow</h3>
+						<p class="text-gray-700">Awarded ARC Future Fellowship (2017-2021) for research on hospital productivity</p>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</BaseLayout>
+

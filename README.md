@@ -1,64 +1,105 @@
-# Astro Starter Kit: Blog
+# Valentin Zelenyuk - Academic Website
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/astro-blog-starter-template)
+A modern, clean academic website built with Astro and Tailwind CSS.
 
-![Astro Template Preview](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
+## Setup
 
-<!-- dash-content-start -->
-
-Create a blog with Astro and deploy it on Cloudflare Workers as a [static website](https://developers.cloudflare.com/workers/static-assets/).
-
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-- ✅ Built-in Observability logging
-
-<!-- dash-content-end -->
-
-## Getting Started
-
-Outside of this repo, you can start a new project with this template using [C3](https://developers.cloudflare.com/pages/get-started/c3/) (the `create-cloudflare` CLI):
-
+1. Install dependencies:
 ```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/astro-blog-starter-template
+npm install
 ```
 
-A live public deployment of this template is available at [https://astro-blog-starter-template.templates.workers.dev](https://astro-blog-starter-template.templates.workers.dev)
+2. Install Tailwind CSS (if not already installed):
+```bash
+npm install -D tailwindcss @astrojs/tailwind
+```
 
-## 🚀 Project Structure
+3. Start the development server:
+```bash
+npm run dev
+```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Content Management
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### Publications
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+Add publications in `src/content/publications/` as markdown files. Example:
 
-Any static assets, like images, can be placed in the `public/` directory.
+```markdown
+---
+title: "Paper Title"
+authors: "Author 1, Author 2, and V. Zelenyuk"
+journal: "Journal Name"
+year: 2024
+volume: "Volume Number"
+pages: "1-20"
+doi: "https://doi.org/..."
+pdf: "https://link-to-pdf"
+journalRank: "A*"
+type: "journal"
+featured: true
+---
 
-## 🧞 Commands
+Optional abstract or description here.
+```
 
-All commands are run from the root of the project, from a terminal:
+### News
 
-| Command                           | Action                                           |
-| :-------------------------------- | :----------------------------------------------- |
-| `npm install`                     | Installs dependencies                            |
-| `npm run dev`                     | Starts local dev server at `localhost:4321`      |
-| `npm run build`                   | Build your production site to `./dist/`          |
-| `npm run preview`                 | Preview your build locally, before deploying     |
-| `npm run astro ...`               | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help`         | Get help using the Astro CLI                     |
-| `npm run build && npm run deploy` | Deploy your production site to Cloudflare        |
-| `npm wrangler tail`               | View real-time logs for all Workers              |
+Add news items in `src/content/news/` as markdown files. Example:
 
-## 👀 Want to learn more?
+```markdown
+---
+title: "News Title"
+date: 2024-01-15
+type: "publication" # or "talk", "award", "conference", "other"
+description: "Brief description"
+link: "https://optional-link.com"
+---
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Full content here (optional).
+```
 
-## Credit
+## Project Structure
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+```
+src/
+├── components/     # Reusable components (Header, Footer, etc.)
+├── content/       # Markdown content (publications, news)
+├── layouts/       # Page layouts
+├── pages/         # Route pages
+└── styles/        # Global styles and Tailwind config
+```
+
+## Pages
+
+- `/` - Home page with hero section and highlights
+- `/about` - Biography and background
+- `/research` - Research interests and themes
+- `/publications` - Publications list (from markdown)
+- `/teaching` - Courses and teaching
+- `/service` - Service and leadership
+- `/students` - Information for prospective students
+- `/news` - News and updates (from markdown)
+- `/contact` - Contact information
+- `/cv` - CV download page
+
+## Customization
+
+- Update personal information in `src/consts.ts`
+- Modify navigation in `src/consts.ts` (NAV_ITEMS)
+- Customize colors in `tailwind.config.mjs`
+- Update styles in `src/styles/global.css`
+
+## Build
+
+```bash
+npm run build
+```
+
+## Deploy
+
+The site is configured for Cloudflare Pages. Deploy with:
+
+```bash
+npm run deploy
+```

@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+	title="CV"
+	description="Curriculum Vitae of Valentin Zelenyuk, Professor of Economics at The University of Queensland."
+>
+	<div class="container-custom py-16">
+		<div class="max-w-4xl mx-auto">
+			<div class="text-center mb-8">
+				<h1 class="text-4xl font-bold text-gray-900 mb-4">Curriculum Vitae</h1>
+				<p class="text-gray-600 mb-6">Last Updated: May 8, 2024</p>
+				<a 
+					href="/V_Zelenyuk_CV_8May2024b.docx.md" 
+					download
+					class="btn-primary inline-flex items-center gap-2"
+				>
+					<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+					</svg>
+					Download Full CV (PDF)
+				</a>
+			</div>
+
+			<div class="bg-gray-50 p-6 rounded-lg mb-8">
+				<p class="text-gray-700">
+					The complete CV is available for download above. For the most up-to-date information, 
+					please visit the individual pages on this website or check my 
+					<a href="https://scholar.google.com/citations?user=KBGcuJEAAAAJ&hl=en" 
+					   target="_blank" rel="noopener" 
+					   class="text-primary-600 hover:text-primary-700">Google Scholar profile</a>.
+				</p>
+			</div>
+
+			<div class="prose-custom">
+				<p class="text-gray-600 text-sm">
+					<strong>Note:</strong> A full HTML version of the CV will be available here soon. 
+					In the meantime, please refer to the downloadable version or the individual sections 
+					of this website.
+				</p>
+			</div>
+		</div>
+	</div>
+</BaseLayout>
+

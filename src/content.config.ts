@@ -15,4 +15,37 @@ const blog = defineCollection({
 	}),
 });
 
-export const collections = { blog };
+const publications = defineCollection({
+	loader: glob({ base: "./src/content/publications", pattern: "**/*.{md,mdx}" }),
+	schema: z.object({
+		title: z.string(),
+		authors: z.string(),
+		journal: z.string().optional(),
+		year: z.number(),
+		volume: z.string().optional(),
+		issue: z.string().optional(),
+		pages: z.string().optional(),
+		doi: z.string().url().optional(),
+		pdf: z.string().url().optional(),
+		arxiv: z.string().url().optional(),
+		ssrn: z.string().url().optional(),
+		publisher: z.string().optional(),
+		journalRank: z.enum(["A*", "A", "B", "C"]).optional(),
+		abstract: z.string().optional(),
+		type: z.enum(["journal", "book", "chapter", "working-paper", "report"]).default("journal"),
+		featured: z.boolean().default(false),
+	}),
+});
+
+const news = defineCollection({
+	loader: glob({ base: "./src/content/news", pattern: "**/*.{md,mdx}" }),
+	schema: z.object({
+		title: z.string(),
+		date: z.coerce.date(),
+		type: z.enum(["publication", "talk", "award", "conference", "other"]).default("other"),
+		link: z.string().url().optional(),
+		description: z.string().optional(),
+	}),
+});
+
+export const collections = { blog, publications, news };
