@@ -1,7 +1,10 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { PERSONAL_INFO } from '../consts';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+
+const aboutEntries = await getCollection('about');
+const aboutContent = aboutEntries[0]; // Get the single about entry
+const { Content } = await render(aboutContent);
 
 const roles = await getCollection('roles');
 const sortedRoles = roles.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
@@ -12,136 +15,30 @@ const sortedRoles = roles.sort((a, b) => (a.data.order || 0) - (b.data.order || 
 	description="Biography and academic background of Valentin Zelenyuk, Professor of Economics at The University of Queensland."
 >
 	<h1 class="text-4xl font-bold text-gray-900 mb-8">About</h1>
-			
-			<div class="prose-custom mb-12">
-				<p class="text-lg text-gray-700 leading-relaxed">
-					I am a Professor of Economics (Econometrics) at The University of Queensland, 
-					specializing in Productivity and Efficiency Analysis, Econometrics, and Performance 
-					Measurement. My research combines theoretical rigor with practical applications, 
-					particularly in healthcare and banking sectors.
-				</p>
-			</div>
+	
+	<!-- Current Roles -->
+	<section class="mb-12">
+		<h2 class="text-2xl font-bold text-gray-900 mb-6">Current Roles</h2>
+		<div class="grid md:grid-cols-2 gap-6">
+			{sortedRoles.map((role) => (
+				<a
+					href={`/about/roles/${role.id}`}
+					class="card hover:shadow-lg transition-shadow group"
+				>
+					<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+						{role.data.role}
+					</h3>
+					<p class="text-gray-600 text-sm mb-3">{role.data.org}</p>
+					<span class="text-primary-600 text-sm font-medium group-hover:underline">
+						Learn more →
+					</span>
+				</a>
+			))}
+		</div>
+	</section>
 
-			<!-- Education -->
-			<section class="mb-12">
-				<h2 class="text-2xl font-bold text-gray-900 mb-6">Education</h2>
-				<div class="space-y-6">
-					<div class="border-l-4 border-primary-500 pl-6">
-						<h3 class="text-lg font-semibold text-gray-900">Ph.D., Economics</h3>
-						<p class="text-gray-600">Oregon State University, USA (1999-2002)</p>
-						<p class="text-gray-700 mt-2">
-							<strong>Field:</strong> Industrial Organization, Productivity and Efficiency Analysis<br/>
-							<strong>Major Professors:</strong> Rolf Färe and Shawna Grosskopf
-						</p>
-					</div>
-					
-					<div class="border-l-4 border-primary-500 pl-6">
-						<h3 class="text-lg font-semibold text-gray-900">M.S., Economics</h3>
-						<p class="text-gray-600">Oregon State University, USA (1997-1999)</p>
-						<p class="text-gray-700 mt-2">
-							<strong>Fields:</strong> Productivity and Efficiency Analysis, Industrial Organization
-						</p>
-					</div>
-					
-					<div class="border-l-4 border-primary-500 pl-6">
-						<h3 class="text-lg font-semibold text-gray-900">Specialist (~MSc), Economics & Management</h3>
-						<p class="text-gray-600">Donetsk State Institute of Commerce, Ukraine (1991-1996)</p>
-						<p class="text-gray-700 mt-2">
-							<strong>Honor:</strong> summa cum laude ("Red Diploma")
-						</p>
-					</div>
-				</div>
-			</section>
-
-			<!-- Current Position -->
-			<section class="mb-12">
-				<h2 class="text-2xl font-bold text-gray-900 mb-6">Current Position</h2>
-				<div class="bg-gray-50 p-6 rounded-lg">
-					<h3 class="text-lg font-semibold text-gray-900 mb-2">Professor of Economics (Econometrics)</h3>
-					<p class="text-gray-700 mb-4">{PERSONAL_INFO.affiliation}</p>
-					<p class="text-gray-600">{PERSONAL_INFO.office}</p>
-				</div>
-			</section>
-
-			<!-- Research Interests -->
-			<section class="mb-12">
-				<h2 class="text-2xl font-bold text-gray-900 mb-6">Research Interests</h2>
-				<div class="grid md:grid-cols-2 gap-4">
-					<div class="bg-white p-4 rounded-lg border border-gray-200">
-						<h3 class="font-semibold text-gray-900 mb-2">Methodology</h3>
-						<ul class="text-gray-700 space-y-1 text-sm">
-							<li>• Productivity and Efficiency Analysis</li>
-							<li>• Data Envelopment Analysis (DEA)</li>
-							<li>• Stochastic Frontier Analysis (SFA)</li>
-							<li>• Nonparametric Econometrics</li>
-						</ul>
-					</div>
-					<div class="bg-white p-4 rounded-lg border border-gray-200">
-						<h3 class="font-semibold text-gray-900 mb-2">Applications</h3>
-						<ul class="text-gray-700 space-y-1 text-sm">
-							<li>• Healthcare Analytics</li>
-							<li>• Banking Analytics</li>
-							<li>• Economic Growth Measurement</li>
-							<li>• Forecasting</li>
-						</ul>
-					</div>
-				</div>
-			</section>
-
-			<!-- Affiliations -->
-			<section class="mb-12">
-				<h2 class="text-2xl font-bold text-gray-900 mb-6">Key Affiliations</h2>
-				<ul class="space-y-3 text-gray-700">
-					<li>• <strong>Co-Founder</strong>, International Society for Efficiency and Productivity Analysis (ISEAPA)</li>
-					<li>• <strong>Associate Editor</strong>, Journal of Productivity Analysis</li>
-					<li>• <strong>Elected Member</strong>, Conference on Research in Income and Wealth (CRIW) of NBER</li>
-					<li>• The Econometrics Society (International)</li>
-					<li>• Economic Society of Australia (QLD Chapter)</li>
-					<li>• Western Economic Association International (WEAI)</li>
-				</ul>
-			</section>
-
-			<!-- Current Roles -->
-			<section class="mb-12">
-				<h2 class="text-2xl font-bold text-gray-900 mb-6">Current Roles</h2>
-				<div class="grid md:grid-cols-2 gap-6">
-					{sortedRoles.map((role) => (
-						<a
-							href={`/about/roles/${role.id}`}
-							class="card hover:shadow-lg transition-shadow group"
-						>
-							<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
-								{role.data.role}
-							</h3>
-							<p class="text-gray-600 text-sm mb-3">{role.data.org}</p>
-							<span class="text-primary-600 text-sm font-medium group-hover:underline">
-								Learn more →
-							</span>
-						</a>
-					))}
-				</div>
-			</section>
-
-			<!-- Languages & Skills -->
-			<section>
-				<h2 class="text-2xl font-bold text-gray-900 mb-6">Languages & Skills</h2>
-				<div class="grid md:grid-cols-2 gap-6">
-					<div>
-						<h3 class="font-semibold text-gray-900 mb-3">Languages</h3>
-						<ul class="text-gray-700 space-y-1">
-							<li>• English (fluent)</li>
-							<li>• Russian (native)</li>
-							<li>• Ukrainian (fair)</li>
-						</ul>
-					</div>
-					<div>
-						<h3 class="font-semibold text-gray-900 mb-3">Technical Skills</h3>
-						<ul class="text-gray-700 space-y-1">
-							<li>• MATLAB</li>
-							<li>• Statistical Software (SAS, R, Stata)</li>
-							<li>• Programming (C, Python)</li>
-						</ul>
-					</div>
-				</div>
-			</section>
+	<!-- About Content from Markdown -->
+	<div class="prose-custom">
+		<Content />
+	</div>
 </PageLayout>

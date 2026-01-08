@@ -37,8 +37,20 @@
 		@apply font-semibold text-gray-900;
 	}
 	
+	.prose-custom h2 {
+		@apply text-2xl font-bold mb-6 mt-12;
+	}
+	
+	.prose-custom h3 {
+		@apply text-lg font-semibold mb-3 mt-6;
+	}
+	
 	.prose-custom p {
 		@apply text-gray-700 leading-relaxed mb-4;
+	}
+	
+	.prose-custom p:first-of-type {
+		@apply text-lg;
 	}
 	
 	.prose-custom a {

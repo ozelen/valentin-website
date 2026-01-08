@@ -57,4 +57,11 @@ const roles = defineCollection({
 	}),
 });
 
-export const collections = { blog, publications, news, roles };
+const about = defineCollection({
+	loader: glob({ base: "./src/content/about", pattern: "**/*.{md,mdx}" }),
+	schema: z.object({
+		title: z.string(),
+	}),
+});
+
+export const collections = { blog, publications, news, roles, about };
