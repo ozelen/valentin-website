@@ -19,14 +19,14 @@ export const PERSONAL_INFO = {
 	uqProfile: "https://about.uq.edu.au/experts/2349",
 };
 
-// Navigation items
+// Navigation items (Home will be conditionally shown)
 export const NAV_ITEMS = [
 	{ href: "/", label: "Home" },
+	{ href: "/about", label: "About" },
 	{ href: "/research", label: "Research" },
 	{ href: "/publications", label: "Publications" },
 	{ href: "/teaching", label: "Teaching" },
-	{ href: "/service", label: "Service & Leadership" },
+	{ href: "/service", label: "Services" },
 	{ href: "/students", label: "Students" },
-	{ href: "/news", label: "News" },
 	{ href: "/contact", label: "Contact" },
 ];

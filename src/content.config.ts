@@ -48,4 +48,13 @@ const news = defineCollection({
 	}),
 });
 
-export const collections = { blog, publications, news };
+const roles = defineCollection({
+	loader: glob({ base: "./src/content/roles", pattern: "**/*.{md,mdx}" }),
+	schema: z.object({
+		role: z.string(),
+		org: z.string(),
+		order: z.number().optional().default(0),
+	}),
+});
+
+export const collections = { blog, publications, news, roles };

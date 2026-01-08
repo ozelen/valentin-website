@@ -11,8 +11,7 @@ const sortedNews = newsItems.sort((a, b) => b.data.date.getTime() - a.data.date.
 	description="Recent news, talks, publications, awards, and updates from Valentin Zelenyuk."
 >
 	<div class="container-custom py-16">
-		<div class="max-w-4xl mx-auto">
-			<h1 class="text-4xl font-bold text-gray-900 mb-8">News & Updates</h1>
+		<h1 class="text-4xl font-bold text-gray-900 mb-8">News & Updates</h1>
 
 			{sortedNews.length > 0 ? (
 				<div class="space-y-6">
@@ -79,7 +78,6 @@ const sortedNews = newsItems.sort((a, b) => b.data.date.getTime() - a.data.date.
 					</div>
 				</div>
 			</section>
-		</div>
 	</div>
 </BaseLayout>
 

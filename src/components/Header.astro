@@ -1,16 +1,22 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE, NAV_ITEMS, PERSONAL_INFO } from '../consts';
+
+// Filter out Home on home page
+const currentPath = Astro.url.pathname;
+const filteredNavItems = currentPath === '/' 
+	? NAV_ITEMS.filter(item => item.href !== '/')
+	: NAV_ITEMS;
 ---
 
-<header class="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
+<header id="main-header" class="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 bg-white transition-transform duration-300 shadow-sm">
 	<nav class="container-custom flex items-center justify-between py-4">
 		<a href="/" class="text-xl font-bold text-gray-900 hover:text-primary-600 transition-colors">
 			{SITE_TITLE}
 		</a>
 		
 		<div class="hidden md:flex items-center gap-1">
-			{NAV_ITEMS.map((item) => (
+			{filteredNavItems.map((item) => (
 				<HeaderLink href={item.href}>{item.label}</HeaderLink>
 			))}
 		</div>
@@ -30,7 +36,7 @@ import { SITE_TITLE, NAV_ITEMS, PERSONAL_INFO } from '../consts';
 	<!-- Mobile menu -->
 	<div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white">
 		<div class="container-custom py-4 space-y-2">
-			{NAV_ITEMS.map((item) => (
+			{filteredNavItems.map((item) => (
 				<a
 					href={item.href}
 					class="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-primary-600 rounded-lg transition-colors"
@@ -45,10 +51,55 @@ import { SITE_TITLE, NAV_ITEMS, PERSONAL_INFO } from '../consts';
 <script>
 	const menuButton = document.getElementById('mobile-menu-button');
 	const mobileMenu = document.getElementById('mobile-menu');
+	const header = document.getElementById('main-header');
 	
 	if (menuButton && mobileMenu) {
 		menuButton.addEventListener('click', () => {
 			mobileMenu.classList.toggle('hidden');
 		});
 	}
+	
+	// Show/hide header on scroll - appear after hero menu is scrolled past (desktop only)
+	function updateHeaderVisibility() {
+		if (!header) return;
+		
+		// Always show on mobile
+		if (window.innerWidth < 768) {
+			header.classList.remove('-translate-y-full');
+			return;
+		}
+		
+		// Desktop: check if hero menu is scrolled past
+		const heroMenu = document.getElementById('hero-menu');
+		if (!heroMenu) {
+			// If no hero menu (not on home page), always show
+			header.classList.remove('-translate-y-full');
+			return;
+		}
+		
+		const heroMenuRect = heroMenu.getBoundingClientRect();
+		const heroMenuBottom = heroMenuRect.bottom;
+		
+		// Show header when hero menu has been scrolled past (when it's above the viewport)
+		if (heroMenuBottom < 0) {
+			header.classList.remove('-translate-y-full');
+		} else {
+			// Hide header when hero menu is still visible
+			header.classList.add('-translate-y-full');
+		}
+	}
+	
+	// Initial state: hide on desktop if on home page, show on mobile
+	if (window.innerWidth >= 768) {
+		const heroMenu = document.getElementById('hero-menu');
+		if (heroMenu) {
+			header?.classList.add('-translate-y-full');
+		}
+	}
+	
+	window.addEventListener('scroll', updateHeaderVisibility);
+	window.addEventListener('resize', updateHeaderVisibility);
+	
+	// Initial check
+	updateHeaderVisibility();
 </script>
