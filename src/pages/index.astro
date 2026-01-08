@@ -1,10 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { PERSONAL_INFO } from '../consts';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 const roles = await getCollection('roles');
 const sortedRoles = roles.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+const homeEntries = await getCollection('home');
+const homeContent = homeEntries[0];
+const { Content } = await render(homeContent);
+
+const menuPages = await getCollection('pages');
+const menuItems = menuPages
+	.filter(page => page.data.showInMenu)
+	.sort((a, b) => (a.data.menuOrder || 999) - (b.data.menuOrder || 999));
 ---
 
 <BaseLayout
@@ -36,27 +45,14 @@ const sortedRoles = roles.sort((a, b) => (a.data.order || 0) - (b.data.order || 
           
           <!-- Right side menu -->
           <nav id="hero-menu" class="hidden lg:flex flex-col gap-3 text-right -mt-8">
-            <a href="/about" class="text-white/90 hover:text-white text-sm font-medium transition-all duration-300 drop-shadow-md hover:translate-x-[-4px] hover:opacity-100">
-              About
-            </a>
-            <a href="/research" class="text-white/90 hover:text-white text-sm font-medium transition-all duration-300 drop-shadow-md hover:translate-x-[-4px] hover:opacity-100">
-              Research
-            </a>
-            <a href="/publications" class="text-white/90 hover:text-white text-sm font-medium transition-all duration-300 drop-shadow-md hover:translate-x-[-4px] hover:opacity-100">
-              Publications
-            </a>
-            <a href="/teaching" class="text-white/90 hover:text-white text-sm font-medium transition-all duration-300 drop-shadow-md hover:translate-x-[-4px] hover:opacity-100">
-              Teaching
-            </a>
-            <a href="/service" class="text-white/90 hover:text-white text-sm font-medium transition-all duration-300 drop-shadow-md hover:translate-x-[-4px] hover:opacity-100">
-              Services
-            </a>
-            <a href="/students" class="text-white/90 hover:text-white text-sm font-medium transition-all duration-300 drop-shadow-md hover:translate-x-[-4px] hover:opacity-100">
-              Students
-            </a>
-            <a href="/contact" class="text-white/90 hover:text-white text-sm font-medium transition-all duration-300 drop-shadow-md hover:translate-x-[-4px] hover:opacity-100">
-              Contact
-            </a>
+            {menuItems.map((item) => (
+              <a 
+                href={item.data.path} 
+                class="text-white/90 hover:text-white text-sm font-medium transition-all duration-300 drop-shadow-md hover:translate-x-[-4px] hover:opacity-100"
+              >
+                {item.data.menuLabel}
+              </a>
+            ))}
           </nav>
         </div>
       </div>
@@ -79,7 +75,7 @@ const sortedRoles = roles.sort((a, b) => (a.data.order || 0) - (b.data.order || 
   </section>
 
   <!-- Current Roles - Overlapping with hero -->
-  <section class="relative -mt-8 mb-16 z-10">
+  <section class="relative -mt-8 mb-8 z-10">
     <div class="container-custom">
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         {sortedRoles.map((role) => (
@@ -93,6 +89,15 @@ const sortedRoles = roles.sort((a, b) => (a.data.order || 0) - (b.data.order || 
             <p class="text-gray-700 text-xs leading-relaxed">{role.data.org}</p>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Hero Story -->
+  <section class="bg-white py-4">
+    <div class="container-custom">
+      <div class="prose-custom max-w-4xl mx-auto">
+        <Content />
       </div>
     </div>
   </section>

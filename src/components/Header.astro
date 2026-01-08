@@ -1,12 +1,29 @@
 ---
 import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE, NAV_ITEMS, PERSONAL_INFO } from '../consts';
+import { SITE_TITLE, PERSONAL_INFO } from '../consts';
+import { getCollection } from 'astro:content';
+
+// Get menu items from pages collection
+const menuPages = await getCollection('pages');
+const menuItems = menuPages
+	.filter(page => page.data.showInMenu)
+	.sort((a, b) => (a.data.menuOrder || 999) - (b.data.menuOrder || 999))
+	.map(page => ({
+		href: page.data.path,
+		label: page.data.menuLabel,
+	}));
+
+// Add Home link
+const allNavItems = [
+	{ href: '/', label: 'Home' },
+	...menuItems,
+];
 
 // Filter out Home on home page
 const currentPath = Astro.url.pathname;
 const filteredNavItems = currentPath === '/' 
-	? NAV_ITEMS.filter(item => item.href !== '/')
-	: NAV_ITEMS;
+	? allNavItems.filter(item => item.href !== '/')
+	: allNavItems;
 ---
 
 <header id="main-header" class="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 bg-white transition-transform duration-300 shadow-sm">

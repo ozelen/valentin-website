@@ -64,4 +64,21 @@ const about = defineCollection({
 	}),
 });
 
-export const collections = { blog, publications, news, roles, about };
+const home = defineCollection({
+	loader: glob({ base: "./src/content/home", pattern: "**/*.{md,mdx}" }),
+	schema: z.object({
+		title: z.string(),
+	}),
+});
+
+const pages = defineCollection({
+	loader: glob({ base: "./src/content/pages", pattern: "**/*.{md,mdx}" }),
+	schema: z.object({
+		path: z.string(),
+		menuLabel: z.string(),
+		menuOrder: z.number().optional().default(999),
+		showInMenu: z.boolean().default(false),
+	}),
+});
+
+export const collections = { blog, publications, news, roles, about, home, pages };
